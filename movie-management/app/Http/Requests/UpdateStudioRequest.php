@@ -22,7 +22,9 @@ class UpdateStudioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'studio_name' => 'required|string|max:255',
+            'studio_country' => 'required|string|max:100',
+            'studio_year' => 'required|integer|min:1800|max:' . date('Y'),
         ];
     }
 }

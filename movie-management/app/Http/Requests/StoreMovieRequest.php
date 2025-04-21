@@ -22,7 +22,15 @@ class StoreMovieRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'original_language' => 'required|string|max:10',
+            'release_date' => 'required|date',
+            'budget' => 'required|numeric|min:0',
+            'revenue' => 'required|numeric|min:0',
+            'rating' => 'required|numeric|between:0,10',
+            'description' => 'required|string',
+            'imgurl' => 'required|url',
+            'studio_id' => 'required|exists:studios,id'
         ];
     }
 }

@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
         Movie::factory()->create([
             'title' => 'The Gorge',
             'original_language' => 'en',
-            'release_date' => 2009-12-10,
+            'release_date' => 2016-02-19,
             'budget' => 237000000,
             'revenue' => 2790000000,
             'rating' => 7.2,

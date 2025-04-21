@@ -1,35 +1,47 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { ReactNode } from 'react';
+import { Link, router } from '@inertiajs/react';
+import { BreadcrumbItem } from '@/types';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-    },
-];
+type AppLayoutProps = {
+    children: ReactNode;
+    breadcrumbs?: BreadcrumbItem[];
+};
 
-export default function Dashboard() {
+export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
+    const handleLogout = (e: React.FormEvent) => {
+        e.preventDefault();
+        router.post('/logout');
+    };
+
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
+        <div className="min-h-screen bg-white">
+            {/* Navbar */}
+            <nav className="bg-gray-100 px-4 py-2 flex gap-4 shadow justify-between">
+                <div className="flex gap-4">
+                    <Link href="/movies" as="button" className="hover:underline">Movies</Link>
+                    <Link href="/studios" as="button" className="hover:underline">Studios</Link>
                 </div>
-                <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+                <form onSubmit={handleLogout}>
+                    <button type="submit" className="text-red-600 hover:underline">Logout</button>
+                </form>
+            </nav>
+
+            {/* Breadcrumbs */}
+            {breadcrumbs && (
+                <div className="p-4 text-sm text-gray-500">
+                    {breadcrumbs.map((crumb, index) => (
+                        <span key={index}>
+                            <Link href={crumb.href} className="hover:underline">{crumb.title}</Link>
+                            {index < breadcrumbs.length - 1 && ' / '}
+                        </span>
+                    ))}
                 </div>
+            )}
+
+            {/* Main Content - This is where Inertia will render your pages */}
+            <div className="p-4">
+                {children}
             </div>
-        </AppLayout>
+        </div>
     );
 }
