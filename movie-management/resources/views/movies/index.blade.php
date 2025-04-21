@@ -1,25 +1,20 @@
 @extends('layout')
 @section('content')
 <h1>Movies</h1>
+<p><a href="/movies/create">Add</a></p>
 <ul>
     @foreach ($movies as $movie)
-    <li>
+    <div>
        <img src="{{ $movie -> imgurl }}" />
        <p>{{ $movie -> title }}</p>
-       <p>{{ $movie -> original_language }}</p>
-       <p>{{ $movie -> release_date }}</p>
-       <p>{{ $movie -> budget }}</p>
-       <p>{{ $movie -> revenue }}</p>
-       <p>{{ $movie -> description }}</p>
-       <p>{{ $movie -> studio_id }}</p>
-       {{-- Checking the foreign key connection --}}
-       <p>Studio Details</p>
-       <p>{{ $movie -> studio -> studio_name }}</p>
-       <p>{{ $movie -> studio -> studio_country }}</p>
-       <p>{{ $movie -> studio -> studio_year }}</p>
-       
-
-    </li>
+        <p><a href="{{route('movies.show', $movie -> id)}}">View Details</a></p>
+        <p><a href="{{route('movies.edit', $movie -> id)}}">Edit</a></p>
+        <form action="{{ route('movies.destroy', $movie -> id) }}" method="POST">
+            {{ csrf_field() }}
+            @method("DELETE")
+            <input type="submit" value="Delete" />
+       </form>
+    </div>
        
     @endforeach
 </ul>

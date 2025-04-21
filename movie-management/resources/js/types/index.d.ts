@@ -1,5 +1,6 @@
 import { LucideIcon } from 'lucide-react';
 import type { Config } from 'ziggy-js';
+import { PageProps as InertiaPageProps } from '@inertiajs/inertia';
 
 export interface Auth {
     user: User;
@@ -41,3 +42,45 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export type BreadcrumbItem = {
+    title: string;
+    href: string;
+};
+
+export interface PageProps extends InertiaPageProps {
+    auth?: {
+      user: {
+        id: number;
+        name: string;
+        email: string;
+      };
+    };
+  }
+
+  export interface Studio {
+    id: number;
+    studio_name: string;
+    studio_country: string,
+    studio_year: number
+  }
+  
+  export interface Movie {
+    id: number;
+    title: string;
+    original_language: string;
+    release_date: string;
+    budget: number;
+    revenue: number;
+    rating: number;
+    description: string;
+    imgurl: string;
+    studio_id: number;
+    studio: Studio;
+  }
+  
+  export interface User {
+    id: number;
+    name: string;
+    email: string;
+  }

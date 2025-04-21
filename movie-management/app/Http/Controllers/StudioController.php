@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Inertia\Inertia;
 use App\Models\Studio;
 use App\Http\Requests\StoreStudioRequest;
 use App\Http\Requests\UpdateStudioRequest;
@@ -13,7 +13,11 @@ class StudioController extends Controller
      */
     public function index()
     {
-        return view('studios.index', [
+        // return view('studios.index', [
+        //     'studios' => Studio::all()
+        // ]);
+
+        return Inertia::render('studios/index', [
             'studios' => Studio::all()
         ]);
     }
@@ -23,7 +27,9 @@ class StudioController extends Controller
      */
     public function create()
     {
-        //
+        // return view('studios.create');
+
+        return Inertia::render('studios/create');
     }
 
     /**
@@ -31,7 +37,8 @@ class StudioController extends Controller
      */
     public function store(StoreStudioRequest $request)
     {
-        //
+        $studio = Studio::create($request->validated());
+        return redirect() -> route('studios.index');
     }
 
     /**
@@ -39,7 +46,9 @@ class StudioController extends Controller
      */
     public function show(Studio $studio)
     {
-        //
+        return Inertia::render('studios/show', [
+            'studio' => $studio
+        ]);
     }
 
     /**
@@ -47,7 +56,10 @@ class StudioController extends Controller
      */
     public function edit(Studio $studio)
     {
-        //
+        // return view('studios.edit', compact('studio'));
+        return Inertia::render('studios/edit', [
+            'studio' => $studio
+        ]);
     }
 
     /**
@@ -55,7 +67,8 @@ class StudioController extends Controller
      */
     public function update(UpdateStudioRequest $request, Studio $studio)
     {
-        //
+        $studio -> update($request -> validated());
+        return redirect() -> route('studios.index');
     }
 
     /**
